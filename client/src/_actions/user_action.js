@@ -5,12 +5,13 @@ export function loginAction(userInfo){
     .then((response)=>
         // 성공시 토큰이 response 에 담긴다. 
         // Token 을 헤더에 포함시켜서 유저정보를 요청
-        response.data
-    ); 
+        response.data     
+    )
+
     return {
         type : 'LOGIN_ACTION', 
         payload : request
-    }; 
+    }
 }
 
 export function registerAction(userInfo){
@@ -26,10 +27,12 @@ export function registerAction(userInfo){
 }
 
 export function logoutAction(){
-    const request = axios.post('/api/user/logout')
-    .then((response) => 
-        response.data
-    );
+
+    const request = axios.post('/api/user/logout', null , {
+        headers: {
+            Authorization : 'Bearer ' +  localStorage.getItem('accessToken')
+        }
+    })
 
     return {
         type : 'LOGOUT_ACTION', 
