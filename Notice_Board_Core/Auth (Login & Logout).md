@@ -119,6 +119,9 @@ Post request를 보낼 때, header에 토큰을 실어서 보내는 방법 (Axio
 
 headers에 실어서 보내는 방법 
 : 세번째 파라미터 위치에서 `headers : { Authorization : 'Bearer ' + (Token) } `
+
+![image](https://user-images.githubusercontent.com/63600953/133927814-a93fecd9-18bd-442b-b27a-6396f18004ce.png)
+
 ```
 {
     headers: {
