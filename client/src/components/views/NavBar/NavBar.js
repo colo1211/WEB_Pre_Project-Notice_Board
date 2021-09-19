@@ -8,24 +8,16 @@ import { logoutAction } from '../../../_actions/user_action';
 function NavBar() {
     const history = useHistory(); 
     const dispatch = useDispatch(); 
-    const accessToken = useSelector((state)=> state); 
-    console.log('accessToken nav',accessToken.user.accessToken);
-
+    
+    // 로그아웃 할때, 
+    // 1. api/user/logout 서버로 header에 token을 담아서 전송
+    // 2. localStorage에 담겨있는 정보를 없애기
     const logOutHandler = (e) => {
         dispatch(logoutAction())
         .then(()=>{
             history.push('/signin'); 
         })
-        // axios.post('/api/user/logout', null , {
-        //     headers: {
-        //         Authorization : 'Bearer ' +  localStorage.getItem('accessToken')
-        //     }
-        // })
-        // .then(() => {
-        //     history.push('/signin');
-        //   }
-        // );
-        // localStorage.setItem('accessToken', null);
+        localStorage.removeItem('user'); 
     }
 
     return (

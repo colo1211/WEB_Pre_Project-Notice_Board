@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import {loginAction} from '../../../_actions/user_action';
+import { withRouter } from 'react-router';
 
 const SignIn = () => {
 
@@ -39,13 +40,11 @@ const SignIn = () => {
         dispatch(loginAction(userInfo))
         .then((response)=>{
             if (response){
-                console.log(response); 
-                let accessToken = response.payload.accessToken;
-                localStorage.setItem('accessToken', accessToken); 
+                localStorage.setItem('user', JSON.stringify({accessToken:`${response.payload.accessToken}`,email:`${Email}`, password: `${Password}`})); 
                 history.push('/');
             }
         }).catch(()=>{
-            alert('이메일과 비밀번호를 다시 입력하세요');
+            alert('다시 확인 ㄱ');
         })
     }
 
@@ -55,16 +54,15 @@ const SignIn = () => {
             display: 'flex' , justifyContent : 'center', alignItems:'center', 
             width : '100%', height : '100vh'
         }}>
-            <form style={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
-                <label>이메일</label>
-                <input name= 'email' type = 'email' value={Email} onChange={onChangeHandler}/>
-                <label>패스워드</label>
-                <input name= 'password' type = 'password' value={Password} onChange={onChangeHandler}/>
-                <button style={{marginTop : '15px'}}>Sign In</button>
-            </form>
-                
+                <form style={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
+                    <label>이메일</label>
+                    <input name= 'email' type = 'email' value={Email} onChange={onChangeHandler}/>
+                    <label>패스워드</label>
+                    <input name= 'password' type = 'password' value={Password} onChange={onChangeHandler}/>
+                    <button style={{marginTop : '15px'}}>Sign In</button>
+                </form>
         </div>
     )
 }
 
-export default SignIn;
+export default withRouter(SignIn);

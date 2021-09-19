@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { registerAction } from '../../../_actions/user_action';
-
+import { withRouter } from 'react-router';
 
 const SignUp = () => {
 
@@ -67,4 +67,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp; 
+export default withRouter(SignUp); 
