@@ -4,6 +4,7 @@ import { useHistory } from 'react-router';
 import {loginAction} from '../../../_actions/user_action';
 
 const SignIn = () => {
+
     const history = useHistory();
     const dispatch = useDispatch(); 
     const [Email, setEmail] = useState(''); 
@@ -33,24 +34,21 @@ const SignIn = () => {
             email : Email, 
             password : Password
         }
+
         // 로그인이니까 post
         dispatch(loginAction(userInfo))
         .then((response)=>{
             if (response){
+                console.log(response); 
+                let accessToken = response.payload.accessToken;
+                localStorage.setItem('accessToken', accessToken); 
                 history.push('/');
-                alert(`반갑습니다. ${response.payload.name}님!`); 
             }
         }).catch(()=>{
             alert('이메일과 비밀번호를 다시 입력하세요');
         })
     }
 
-    const onGoogleSignHandler = (e) => {
-        e.preventDefault(); 
-        console.log('구글로그인ㄱ?'); 
-        // dispatch(googleLoginAction())
-        
-    }
 
     return (
         <div style = {{
@@ -63,7 +61,6 @@ const SignIn = () => {
                 <label>패스워드</label>
                 <input name= 'password' type = 'password' value={Password} onChange={onChangeHandler}/>
                 <button style={{marginTop : '15px'}}>Sign In</button>
-                {/* <button style={{marginTop : '15px'}} onClick={onGoogleSignHandler}>Sign In With Google</button> */}
             </form>
                 
         </div>

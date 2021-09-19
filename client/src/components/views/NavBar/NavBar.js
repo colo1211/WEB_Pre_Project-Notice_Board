@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import { logoutAction } from '../../../_actions/user_action';
 
 function NavBar() {
-    const user = useSelector((state)=>state);
     const dispatch = useDispatch(); 
+
     const logOutHandler = (e) => {
-        dispatch(logoutAction(user.user.user))
-        .then((response) => console.log(response)); 
+        dispatch(logoutAction())
+        localStorage.setItem('accessToken', '');
     }
 
     return (
@@ -18,13 +18,7 @@ function NavBar() {
                 <li><Link to = '/'>Home</Link></li>
                 <li><Link to = '/SignIn'>SignIn</Link></li>
                 <li><Link to = '/SignUp'>SignUp</Link></li>
-                {
-                    user
-                    ? (<button onClick={logOutHandler}>
-                        Sign Out
-                    </button>)
-                    : null
-                }
+                <button onClick={logOutHandler}>Sign Out</button>
             </ul>
         </div>
     )

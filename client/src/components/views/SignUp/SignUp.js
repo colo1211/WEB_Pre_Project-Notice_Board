@@ -33,6 +33,7 @@ const SignUp = () => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault(); 
+
         let userInfo = {
             name : Name, 
             email : Email, 
@@ -42,8 +43,8 @@ const SignUp = () => {
         dispatch(registerAction(userInfo))
         .then((response)=>{
             if (response){
-                history.push('/'); 
-                alert('가입을 축하합니다!'); 
+                history.push('/login'); 
+                alert('가입을 축하합니다. 로그인을 진행하세요.'); 
             }
         })
     }
