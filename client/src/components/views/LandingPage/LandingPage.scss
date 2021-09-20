@@ -1,0 +1,21 @@
+@import '../../../reset.scss';
+
+.form-layout{
+    display: block;
+    margin: auto;
+    width : 70%;
+}
+
+.form-wrap {
+
+    width : 50%;
+    margin: auto;
+}
+
+.input-layout{
+    width : 100%;
+    padding : 10px;
+    border-radius: 10px;
+    display: block;
+    margin : 10px 0px 10px 0px; 
+}
