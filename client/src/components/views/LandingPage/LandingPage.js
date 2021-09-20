@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios'; 
 import { loginAction } from '../../../_actions/user_action';
 import { withRouter } from 'react-router';
+import { Button } from 'react-bootstrap'; 
+import './LandingPage.scss';
 
 const LandingPage = () => {
 
@@ -27,10 +28,41 @@ const LandingPage = () => {
       }    
     },[]);
 
+
+    const onSubmitHandler = (e) => {
+        e.preventDefault(); 
+        console.log('제출')
+    }
+
     return (
         <div>
-            Landing Page
             <p>반갑습니다! {user.user.name}님! </p>
+            <form className='form-layout' >
+                <div className = 'form-wrap'>
+                    <p>제목</p>
+                    <input className= 'input-layout'></input>
+                    <p>내용</p>
+                    <input className= 'input-layout'></input>
+                    <p>장소</p>
+                    <input className= 'input-layout'></input>
+                    <p>학교ID</p>
+                    <input className= 'input-layout'></input>
+                    <p>급여</p>
+                    <input className= 'input-layout'></input>
+                    <p>소요시간</p>
+                    <input className= 'input-layout'></input>
+                    <p>연락처</p>
+                    <input className= 'input-layout' placeholder='010-1234-5678'></input>
+                    <p>카테고리</p>
+                    <input className='input-layout' placeholder='SURVEY or EXPERIMENT'></input>
+                    <p>마감날짜</p>
+                    <input type ='date' className= 'input-layout'></input>
+                    <p>실험/설문날짜</p>
+                    <input className= 'input-layout' placeholder='2021-08-10T09:30'></input>
+                    <Button onSubmit={onSubmitHandler} className = 'mt-5' variant="primary">제출</Button>
+                </div>
+               
+            </form>
         </div>
     )
 }
