@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import './ReadPage.scss'; 
 import axios from 'axios'; 
 import {Button} from 'react-bootstrap'; 
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
+import Modal from '../DetailPage/Modal';
+import { useSelector } from 'react-redux';
 
 const ReadPage = () => {
     
@@ -10,6 +12,8 @@ const ReadPage = () => {
     const schoolList = require('./SchoolList').default; 
     const [Date, setDate] = useState('');
     const [School, setSchool] = useState('');
+    const [isModal, setisModal] = useState(false); // false 면 숨김/ true 면 나옴
+    const [Id, setId] = useState(null);
 
     // 글 목록을 담는 배열
     const [NoticeList, setNoticeList] = useState([]);
@@ -38,7 +42,8 @@ const ReadPage = () => {
 
     const DetailPage = (id,e) => {
         e.preventDefault(); 
-        history.push(`/detail/${id}`);
+        setId(id); 
+        setisModal(true);
     }
 
     // useEffect(()=>{
@@ -59,6 +64,11 @@ const ReadPage = () => {
 
     return (
         <div className='calender'>
+            {
+                isModal===true
+                ? <Modal Id={Id} NoticeList={NoticeList}/>
+                : null
+            }
             <h3>조회할 게시물</h3>
 
             <label>학교</label> <br/>
@@ -79,7 +89,7 @@ const ReadPage = () => {
                 ? null
                 : (NoticeList.map((value,index)=>{
                     return (<div className ='notice-list' key={index}>
-                                <h4 onClick = {(e)=>DetailPage(value.id,e)}> {value.title} </h4>
+                                <h4 onClick = {(e)=>{DetailPage(value.id,e)}}> {value.title} </h4>
                                 <label>작성자 :</label>
                                 <span>{value.author}</span>
                             </div>)
