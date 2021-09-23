@@ -3,7 +3,6 @@ import './ReadPage.scss';
 import axios from 'axios'; 
 import {Button} from 'react-bootstrap'; 
 import { useHistory, useParams } from 'react-router';
-import Modal from '../DetailPage/Modal';
 
 const ReadPage = () => {
     
@@ -11,8 +10,6 @@ const ReadPage = () => {
     const schoolList = require('./SchoolList').default; 
     const [Date, setDate] = useState('');
     const [School, setSchool] = useState('');
-    const [isModal, setisModal] = useState(false); // false 면 숨김/ true 면 나옴
-    const [Id, setId] = useState(null);
 
     // 글 목록을 담는 배열
     const [NoticeList, setNoticeList] = useState([]);
@@ -53,29 +50,9 @@ const ReadPage = () => {
         history.push(`/detail/${id}`); 
     }
 
-    // useEffect(()=>{
-    //     console.log(Date); 
-    //     console.log(School); 
-    // }, [Date, School]); 
-
-    // useEffect(()=> {
-    //     let token = JSON.parse(localStorage.getItem('user')).accessToken;
-    //     axios.get('/api/board/3', {
-    //         headers : {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     })
-    //     .then((response)=> console.log(`게시물 조회 결과 ${JSON.stringify(response)}`))
-    //     .catch((e)=> console.log('게시물 조회 결과',e)); 
-    // },[]); 
-
     return (
         <div className='calender'>
-            {
-                isModal===true
-                ? <Modal Id={Id} NoticeList={NoticeList}/>
-                : null
-            }
+          
             <h3>조회할 게시물</h3>
 
             <label>학교</label> <br/>
