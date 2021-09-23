@@ -51,22 +51,21 @@ const ReadPage = () => {
     }
 
     return (
-        <div className='calender'>
+        <div className='calender' style ={{marginTop:'1px', paddingTop : '40px', paddingBottom:'40px'}}>
           
-            <h3>조회할 게시물</h3>
-
-            <label>학교</label> <br/>
-            <select onChange = {onSchoolChange}>
+            <h3 style={{marginBottom:'30px'}}>조회할 게시물</h3>
+            
+            <select className='select-input' onChange = {onSchoolChange}>
                 {
                     schoolList.map((value,index)=>{
                         return (<option key={index} value={value.id}> {value.name} </option>); 
                     })
                 }
             </select>
-            <hr/>
-            <label>날짜</label><br/>
-            <input type='date' onChange= {onDateChange}/> <br/>
-            <Button onClick={onSubmitHandler} className='mt-4' variant="secondary">조회</Button>
+
+            <input className='select-input' style={{height : '36px'}} type='date' onChange= {onDateChange}/> <br/>
+            <div style ={{clear : 'both'}}></div>
+            <Button onClick={onSubmitHandler} className='mt-4' variant="secondary">게시물 조회</Button>
             
             {
                 NoticeList.length === 0
