@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { registerAction } from '../../../_actions/user_action';
 import { withRouter } from 'react-router';
+import '../SignIn/SignIn.scss'; 
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
 
@@ -56,12 +58,13 @@ const SignUp = () => {
         }}>
             <form style={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
                 <label>이름</label>
-                <input name='name' type = 'text' value={Name} onChange={onChangeHandler}/>
-                <label>이메일</label>
-                <input name='email' type = 'email' value={Email} onChange={onChangeHandler}/>
-                <label>패스워드</label>
-                <input name='password' type = 'password' value={Password} onChange={onChangeHandler}/>
-                <button style={{marginTop : '15px'}}>회원 가입</button>
+                <input className = 'input-style' name='name' type = 'text' placeholder = '손흥민' value={Name} onChange={onChangeHandler}/>
+                <label style={{marginTop : '5px'}}>이메일</label>
+                <input className = 'input-style' name='email' type = 'email' placeholder='Email@exmaple.com' value={Email} onChange={onChangeHandler}/>
+                <label style={{marginTop : '5px'}}>패스워드</label>
+                <input className = 'input-style' name='password' type = 'password' placeholder = 'Password' value={Password} onChange={onChangeHandler}/>
+                <button className='btn btn-primary input-style' style={{marginTop : '15px'}}>Sign Up</button>
+                <Link style={{marginTop : '15px'}} to='/signin'>Sign In</Link>
             </form>
         </div>
     )
