@@ -1,5 +1,11 @@
-.detail-page{
-    width : 80%;
-    padding : 30%;
+@import '../../../reset.scss';
+
+.container{
+    width : 100%;
+    margin: auto;
     border: 1px solid black;
+    padding : 30px;
+    border-radius: 5px;
+    background-color: burlywood;
+    position : relative;
 }
