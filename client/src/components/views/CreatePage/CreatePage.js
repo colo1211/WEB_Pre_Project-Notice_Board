@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'; 
 import { Button } from 'react-bootstrap'; 
+import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../../../_actions/user_action';
 
-const CreatePage = (props) => {
+const CreatePage = () => {
 
+    const dispatch = useDispatch(); 
+    const history = useHistory(); 
     const [body,setBody] = useState({
         title : null, 
         content : null, 
@@ -18,9 +23,6 @@ const CreatePage = (props) => {
     }); 
 
 
-    const onWriteClose = ()=>{
-        props.setWrite(false);
-    }
 
     const onBodyChange = (e) => {
         setBody({
@@ -53,11 +55,32 @@ const CreatePage = (props) => {
             }
         )
         .then((response)=>{
-            console.log(response); 
-            alert('게시물 생성 완료'); 
+            // console.log(response); 
+            alert('게시물 생성 완료ㅎ'); 
+            history.goBack();
         })
         .catch((e)=> console.log(e))
     }
+
+
+    // 새로고침시 재 로그인
+    useEffect(()=>{
+        if(localStorage.getItem('user') !== null){
+            // LocalStorage에 저장한 정보를 가져와서 다시 로그인 시키는 Logic
+            let email = JSON.parse(localStorage.getItem('user')).email;
+            let password = JSON.parse(localStorage.getItem('user')).password;
+            let user = {
+                email : email, 
+                password : password
+            }
+            // Redux 에 저장
+            dispatch(loginAction(user))
+            .then(() => {
+                history.push('/create');
+            }
+        );
+        }    
+    },[]);
 
 
     return (
@@ -66,7 +89,7 @@ const CreatePage = (props) => {
             <p>제목</p>
             <input name='title' className= 'input-layout' onChange={onBodyChange}></input>
             <p>내용</p>
-            <input name='content' className= 'input-layout' onChange={onBodyChange}></input>
+            <textarea style ={{height: '300px'}} name='content' className= 'input-layout' onChange={onBodyChange}></textarea>
             <p>장소</p>
             <input name='place' className= 'input-layout' onChange={onBodyChange}></input>
             <p>학교ID</p>
@@ -88,8 +111,7 @@ const CreatePage = (props) => {
             <input name='dueDate' type ='date' className= 'input-layout' onChange={onBodyChange}></input>
             <p>실험/설문날짜</p>
             <input name='doDate' className= 'input-layout' placeholder='2021-08-10T09:30' onChange={onBodyChange}></input>
-            <Button onClick={onWriteClose} className = 'mt-5' variant="primary">닫기</Button>
-            <Button onClick={onSubmitHandler} className = 'ml-5 mt-5' variant="danger">제출</Button>
+            <Button onClick={onSubmitHandler} className = 'mt-5' variant="danger">제출</Button>
         </div>
     </form>
     )
