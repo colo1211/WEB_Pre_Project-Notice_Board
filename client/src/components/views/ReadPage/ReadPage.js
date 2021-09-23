@@ -4,7 +4,6 @@ import axios from 'axios';
 import {Button} from 'react-bootstrap'; 
 import { useHistory, useParams } from 'react-router';
 import Modal from '../DetailPage/Modal';
-import { useSelector } from 'react-redux';
 
 const ReadPage = () => {
     
@@ -29,21 +28,29 @@ const ReadPage = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault(); 
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
-        console.log(`/api/board/school/${School}/list?date=${Date}&page=1&size=5`); 
         axios.get(`/api/board/school/${School}/list?date=${Date}&page=1&size=5`,
         {
             headers : {
                 Authorization: `Bearer ${token}`
             }
         })
-        .then((response)=> setNoticeList(response.data.content))
+        .then((response)=> {
+            // 해당 날짜, 대학교에 해당하는 조건이 존재한다면 게시물에 띄운다. 
+            if (response.data.content.length!==0){
+                console.log(response.data.content);
+                setNoticeList(response.data.content);
+            }
+            // 해당 날짜, 대학교에 해당하는 조건이 존재하지 않는다면 알림창을 띄운다.
+            else {
+                alert('조회된 게시물이 없습니다.'); 
+            }
+        })
         .catch((e)=> console.log(e));
     }
 
     const DetailPage = (id,e) => {
         e.preventDefault(); 
-        setId(id); 
-        setisModal(true);
+        history.push(`/detail/${id}`); 
     }
 
     // useEffect(()=>{
