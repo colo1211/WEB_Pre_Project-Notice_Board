@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'; 
 import { useHistory } from 'react-router'; 
 import { logoutAction } from '../../../_actions/user_action';
+import './NavBar.scss'; 
 
 function NavBar() {
-
+    const user = useSelector((state) => state);     
     const isLogin = useSelector((state) => state.user.isLogin); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
@@ -23,36 +24,37 @@ function NavBar() {
     }
 
     return (
-        <div>
-            {/* <ul>
-                <li><Link to = '/'>Home</Link></li>
-                <li><Link to = '/SignIn'>SignIn</Link></li>
-                <li><Link to = '/SignUp'>SignUp</Link></li>
-                <button onClick={logOutHandler}>Sign Out</button>
-            </ul> */}
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Notice Board</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container-fluid flex-wrap">
+                    <div className='flex-box'>
+                        <a className="navbar-brand" href="/">Notice Board</a>
+                    </div>
+                    <div style={{flexGrow:'100'}}></div>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                    
                         {
                             isLogin &&
-                            (<ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page"><Link to = '/'>Home</Link></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" onClick={logOutHandler}> Sign Out </a>
-                                </li>
-                            </ul>)
+                            (
+                                <div className="collapse navbar-collapse " id="navbarNav">
+                                    <ul className="navbar-nav">
+                                        <li className="nav-item flex-box" style={{marginTop:'8px', marginRight: '20px'}}>반갑습니다! {user.user.name}님! </li>
+                                        
+                                        <li className="nav-item flex-box">
+                                            <a className="nav-link" aria-current="page"><Link to='/create' style={{color : 'darkGrey'}}>Create Notice</Link></a>
+                                        </li>
+                                        
+                                        <li className="nav-item flex-box">
+                                            <a className="nav-link" onClick={logOutHandler}> Sign Out </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )
                         }
-                    </div>
                 </div>
             </nav>
-        </div>
+        </>
     )
 }
 
