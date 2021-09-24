@@ -7,6 +7,27 @@ import { loginAction } from '../../../_actions/user_action';
 
 const CreatePage = () => {
 
+    // 새로고침시 재 로그인
+    useEffect(()=>{
+        if (localStorage.getItem('user') !== null){
+            // LocalStorage에 저장한 정보를 가져와서 다시 로그인 시키는 Logic
+            let email = JSON.parse(localStorage.getItem('user')).email;
+            let password = JSON.parse(localStorage.getItem('user')).password;
+            let user = {
+                email : email, 
+                password : password
+            }
+            // Redux 에 저장
+            dispatch(loginAction(user))
+            .then(()=>{
+                history.push('/create'); 
+            })
+            .catch((e)=>{
+                alert(e);
+            })
+        }    
+    },[]);
+
     const dispatch = useDispatch(); 
     const history = useHistory(); 
     const [body,setBody] = useState({
@@ -56,32 +77,11 @@ const CreatePage = () => {
         )
         .then((response)=>{
             // console.log(response); 
-            alert('게시물 생성 완료ㅎ'); 
-            history.goBack();
+            alert('게시물 생성이 완료되었습니다'); 
+            history.push('/');
         })
         .catch((e)=> console.log(e))
     }
-
-
-    // 새로고침시 재 로그인
-    useEffect(()=>{
-        if(localStorage.getItem('user') !== null){
-            // LocalStorage에 저장한 정보를 가져와서 다시 로그인 시키는 Logic
-            let email = JSON.parse(localStorage.getItem('user')).email;
-            let password = JSON.parse(localStorage.getItem('user')).password;
-            let user = {
-                email : email, 
-                password : password
-            }
-            // Redux 에 저장
-            dispatch(loginAction(user))
-            .then(() => {
-                history.push('/create');
-            }
-        );
-        }    
-    },[]);
-
 
     return (
         <form className='form-layout' onSubmit={onSubmitHandler}>
@@ -109,7 +109,7 @@ const CreatePage = () => {
             <input className='input-layout' placeholder='SURVEY or EXPERIMENT'></input> */}
             <p>마감날짜</p>
             <input name='dueDate' type ='date' className= 'input-layout' onChange={onBodyChange}></input>
-            <p>실험/설문날짜</p>
+            <p>실험/설문날짜(조회 기준)</p>
             <input name='doDate' className= 'input-layout' placeholder='2021-08-10T09:30' onChange={onBodyChange}></input>
             <Button onClick={onSubmitHandler} className = 'mt-5' variant="danger">제출</Button>
         </div>
