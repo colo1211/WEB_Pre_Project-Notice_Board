@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
-import {loginAction} from '../../../_actions/user_action';
+import {loginAction, loginfalseAction} from '../../../_actions/user_action';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import './SignIn.scss';
@@ -38,6 +38,8 @@ const SignIn = () => {
             password : Password
         }
 
+        // Email과 Password를 둘다 입력했다면
+        if (userInfo.email!=='' && userInfo.password!==''){
         // 로그인이니까 post
         dispatch(loginAction(userInfo))
         .then((response)=>{
@@ -45,11 +47,19 @@ const SignIn = () => {
                 localStorage.setItem('user', JSON.stringify({accessToken:`${response.payload.accessToken}`,email:`${Email}`, password: `${Password}`})); 
                 history.push('/');
             }
-        }).catch(()=>{
-            alert('다시 확인 ㄱ');
+        }).catch((e)=>{
+            alert('일치하는 Email 과 Password 가 없습니다');
+            
         })
+        }
+        else if (userInfo.email==='' && userInfo.password!==''){
+            alert('Email을 입력하세요');
+        }else if (userInfo.email!=='' && userInfo.password===''){
+            alert('Password를 입력하세요'); 
+        }else{
+            alert('Email과 Password를 입력하세요'); 
+        }
     }
-
 
     return (
         <div style = {{
