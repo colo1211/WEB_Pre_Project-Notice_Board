@@ -11,6 +11,7 @@ const DetailPage = () => {
     const history = useHistory(); 
     const { id } = useParams(); 
     const [DetailContents, setDetailContents] = useState(null); 
+    const [Like, setLike] = useState();
     
     useEffect(()=>{
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
@@ -23,7 +24,7 @@ const DetailPage = () => {
         .then((response)=>{
             // console.log(`통신 result ${JSON.stringify(response.data)}`)
             setDetailContents(response.data);
-            console.log(DetailContents); 
+            setLike(response.data.likes); 
         })
         .catch((e)=>console.log(e))
         .finally(()=>{
@@ -55,6 +56,20 @@ const DetailPage = () => {
         }
     }
 
+    // 좋아요 기능
+    const onLikeHandler = (like, e) => {
+        e.preventDefault(); 
+        console.log('좋아요');
+        let token = JSON.parse(localStorage.getItem('user')).accessToken;
+        axios.post(`/api/board/like/${id}`,null,{
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        })
+        .then(()=>{
+            setLike((value) => '❤'); 
+        })
+    }
 
     return (
         <div className='container'>
@@ -72,11 +87,13 @@ const DetailPage = () => {
                     <p>학교 : {DetailContents.schoolName}</p>
                     <p>연락처 : {DetailContents.contact}</p>
                     <p>실험 장소 : {DetailContents.place}</p> 
-                     
+
                     
                     <Button className= 'btn btn-danger' onClick={onUpdateHandler}>수정</Button>
                     <Button className= 'btn btn-danger ml-3' onClick={onDeleteHandler}>삭제</Button>
                     <Button className= 'btn btn-primary ml-3' onClick={()=>{history.goBack()}}>Back</Button>
+                    <Button className= 'btn btn-secondary ml-3' onClick={(e)=>{onLikeHandler(DetailContents.likes,e)}}>Like</Button>
+                    <p>{Like}</p>
                 </div>
             }
             
