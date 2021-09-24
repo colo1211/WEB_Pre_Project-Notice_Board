@@ -10,6 +10,7 @@ const ReadPage = () => {
     const schoolList = require('./SchoolList').default; 
     const [Date, setDate] = useState('');
     const [School, setSchool] = useState('');
+    const [like, setlike] = useState('');
 
     // 글 목록을 담는 배열
     const [NoticeList, setNoticeList] = useState([]);
@@ -34,11 +35,12 @@ const ReadPage = () => {
         .then((response)=> {
             // 해당 날짜, 대학교에 해당하는 조건이 존재한다면 게시물에 띄운다. 
             if (response.data.content.length!==0){
-                console.log(response.data.content);
+                console.log(response.data);
                 setNoticeList(response.data.content);
             }
             // 해당 날짜, 대학교에 해당하는 조건이 존재하지 않는다면 알림창을 띄운다.
             else {
+                console.log(response.data);
                 alert('조회된 게시물이 없습니다.'); 
             }
         })
@@ -73,8 +75,7 @@ const ReadPage = () => {
                 : (NoticeList.map((value,index)=>{
                     return (<div className ='notice-list' key={index}>
                                 <h4 onClick = {(e)=>{DetailPage(value.id,e)}}> {value.title} </h4>
-                                <label>작성자 :</label>
-                                <span>{value.author}</span>
+                                <label>작성자 : {value.author}</label>
                             </div>)
                 }))   
             }
