@@ -76,6 +76,11 @@ const ReadPage = () => {
                     return (<div className ='notice-list' key={index}>
                                 <h4 onClick = {(e)=>{DetailPage(value.id,e)}}> {value.title} </h4>
                                 <label>작성자 : {value.author}</label>
+                                {
+                                    value.likes === 0
+                                    ? <p>🤍</p>
+                                    : <p>❤</p>
+                                }
                             </div>)
                 }))   
             }

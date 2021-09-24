@@ -65,9 +65,17 @@ const DetailPage = () => {
             headers : {
                 Authorization : `Bearer ${token}`
             }
-        })
-        .then(()=>{
-            setLike((value) => '❤'); 
+        }).then(()=>{
+            axios.get(`/api/board/${id}`, {
+                headers : {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then((response)=>{
+                // console.log(`통신 result ${JSON.stringify(response.data)}`)
+                setDetailContents(response.data);
+                setLike(response.data.likes); 
+            })
         })
     }
 
@@ -93,7 +101,11 @@ const DetailPage = () => {
                     <Button className= 'btn btn-danger ml-3' onClick={onDeleteHandler}>삭제</Button>
                     <Button className= 'btn btn-primary ml-3' onClick={()=>{history.goBack()}}>Back</Button>
                     <Button className= 'btn btn-secondary ml-3' onClick={(e)=>{onLikeHandler(DetailContents.likes,e)}}>Like</Button>
-                    <p>{Like}</p>
+                    {
+                        Like === 1
+                        ? <p>❤</p>
+                        : null
+                    }
                 </div>
             }
             
