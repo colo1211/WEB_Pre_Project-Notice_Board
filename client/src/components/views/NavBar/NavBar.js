@@ -8,6 +8,7 @@ import './NavBar.scss';
 function NavBar() {
     const user = useSelector((state) => state);     
     const isLogin = useSelector((state) => state.user.isLogin); 
+    const name = useSelector((state) => state.user.name); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
     
@@ -35,7 +36,7 @@ function NavBar() {
                     <span className="navbar-toggler-icon"></span>
                     </button>
                         {
-                            isLogin &&
+                             isLogin == true && name !== 'Error'&&
                             (
                                 <div className="collapse navbar-collapse " id="navbarNav">
                                     <ul className="navbar-nav">
