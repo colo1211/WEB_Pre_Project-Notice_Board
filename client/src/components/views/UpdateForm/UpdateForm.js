@@ -7,14 +7,11 @@ import SchoolList from '../ReadPage/SchoolList';
 const UpdateForm = ({DetailContents,setisUpdate}) => {
     console.log(DetailContents); 
     const history = useHistory(); 
-    
     const schoolList = require('../ReadPage/SchoolList').default;
-
     const schoolId = schoolList.find((value,index)=>{
         return DetailContents.schoolName === value.name;
     }).id;
 
-    console.log(schoolId);
     const [body,setBody] = useState({
         ...DetailContents,
         title : DetailContents.title, 
@@ -25,8 +22,10 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
         phoneNum : DetailContents.contact,
         schoolId : schoolId, 
         dueDate : DetailContents.dueDate, 
-        doDate : DetailContents.doDate
+        doDate : DetailContents.doDate,
+        files : DetailContents.images[0]
     }); 
+
     
     const onBodyChange = (e) => {
         setBody({ 
@@ -50,7 +49,7 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
         formData.append('phoneNum', body.phoneNum);
         formData.append('dueDate', body.dueDate);
         formData.append('doDate', body.doDate);
-        formData.append('fileChanged', false);
+        // formData.append('fileChanged', false);
 
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
         
@@ -104,6 +103,9 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
                     <input name='dueDate' className= 'input-layout' type='date' value={body.dueDate} onChange={onBodyChange}></input>
                     <p>실험날짜</p>
                     <input name='doDate' className= 'input-layout' value={body.doDate} onChange={onBodyChange}></input>
+                    
+                    
+                    <hr/>
                     <button onClick = {()=> {
                         setisUpdate(false);
                     }} className='btn btn-primary mt-5'>닫기</button>
