@@ -34,12 +34,10 @@ module.exports = function(app) {
 2. 게시물 CRUD
 3. Detail Page
 4. 좋아요(Like) 기능 추가
+5. 파일 업로드 (CRUD) 추가 및 파일 업로드시 미리보기 기능 ( FileReader API )
 
 > 해야할 작업 (필수)
 <ol>
-<li> 파일 업로드 기능 추가 </li> 
-<li> 페이징 작업 (페이지 나누기 or 무한 스크롤) </li>
+<li> 페이징 작업 (페이지 나누기 or 무한 스크롤) , 라이브러리 써서 하기</li>
 <li> 디테일한 Styling 작업 </li>
 </ol>
-> 하면 좋은 작업 (선택)
-1. 소셜 로그인 기능
