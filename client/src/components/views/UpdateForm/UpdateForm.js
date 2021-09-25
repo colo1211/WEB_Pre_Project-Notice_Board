@@ -1,16 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './UpdateForm.scss'; 
 import axios from 'axios'; 
 import { useHistory } from 'react-router';
 import SchoolList from '../ReadPage/SchoolList';
 
 const UpdateForm = ({DetailContents,setisUpdate}) => {
-    console.log(DetailContents); 
+    
+
+    useEffect(()=>{
+        if (DetailContents.images[0]){
+            setAttachment(DetailContents.images[0].url);
+        }
+    },[]);
+
     const history = useHistory(); 
     const schoolList = require('../ReadPage/SchoolList').default;
     const schoolId = schoolList.find((value,index)=>{
         return DetailContents.schoolName === value.name;
     }).id;
+
+    // 미리보기 용
+    const [Attachment, setAttachment] = useState(null);
+    
+    // Server request용
+    const [FileInfo, setFileInfo] = useState(null); 
+
+    const [fileChange, setFileChange] = useState(false); 
 
     const [body,setBody] = useState({
         ...DetailContents,
@@ -22,8 +37,7 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
         phoneNum : DetailContents.contact,
         schoolId : schoolId, 
         dueDate : DetailContents.dueDate, 
-        doDate : DetailContents.doDate,
-        files : DetailContents.images[0]
+        doDate : DetailContents.doDate
     }); 
 
     
@@ -33,6 +47,17 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
             [e.target.name] : e.target.value
         })
         console.log(body); 
+    }
+
+    // 파일이 바뀌었다면 FileChange를 true로 변경해준다. 
+    const onFileChange = (e) => {
+        setFileInfo(e.target.files[0]);
+        setFileChange(true); 
+        const reader = new FileReader(); 
+        reader.readAsDataURL(e.target.files[0]);  // e.target.files는 파일을 여러개 선택을 대비하기 위한 API 사용 방법이므로 나는 하나만 할거니까 [0] 으로 선택 
+        reader.onloadend = (finished) => { // reader는 생명주기함수처럼 다룬다. 파일 로드가 끝나면 Attachment state에 img 의 주소를 담으라는 뜻
+            setAttachment(finished.target.result); // 이건 attachment에 URL을 담으라는 뜻, 만약 Img 미리보기를 취소하려면 attachment를 비워주면 된다. 
+        }
     }
 
 
@@ -49,7 +74,10 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
         formData.append('phoneNum', body.phoneNum);
         formData.append('dueDate', body.dueDate);
         formData.append('doDate', body.doDate);
-        // formData.append('fileChanged', false);
+        formData.append('fileChanged', fileChange);
+        if (fileChange === true) {
+            formData.append('files', FileInfo);
+        }
 
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
         
@@ -79,7 +107,7 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
                     <p>제목</p>
                     <input name='title' className= 'input-layout' value={body.title} onChange={onBodyChange}></input>
                     <p>내용</p>
-                    <input name='content' className= 'input-layout' value={body.content} onChange={onBodyChange}></input>
+                    <textarea name='content' style ={{height: '300px'}} className= 'input-layout' value={body.content} onChange={onBodyChange}></textarea>
                     <p>장소</p>
                     <input name='place' className= 'input-layout' value={body.place} onChange={onBodyChange}></input>
                     <p>급여</p>
@@ -103,7 +131,9 @@ const UpdateForm = ({DetailContents,setisUpdate}) => {
                     <input name='dueDate' className= 'input-layout' type='date' value={body.dueDate} onChange={onBodyChange}></input>
                     <p>실험날짜</p>
                     <input name='doDate' className= 'input-layout' value={body.doDate} onChange={onBodyChange}></input>
-                    
+                    <p>파일 업로드</p>
+                            <input type='file' onChange={onFileChange}/>
+                            <img src={Attachment} width='80px' height='100px'/>
                     
                     <hr/>
                     <button onClick = {()=> {
