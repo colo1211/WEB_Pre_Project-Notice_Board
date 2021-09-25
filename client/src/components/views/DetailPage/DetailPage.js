@@ -12,6 +12,7 @@ const DetailPage = () => {
     const { id } = useParams(); 
     const [DetailContents, setDetailContents] = useState(null); 
     const [Like, setLike] = useState();
+    const [isFile, setIsFile] = useState(null);
     
     useEffect(()=>{
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
@@ -80,7 +81,7 @@ const DetailPage = () => {
     }
 
     return (
-        <div className='container'>
+        <div className='container mt-5'>
             {
                 isUpdate 
                 ? <UpdateForm DetailContents={DetailContents} setisUpdate={setisUpdate}/>
@@ -95,7 +96,12 @@ const DetailPage = () => {
                     <p>학교 : {DetailContents.schoolName}</p>
                     <p>연락처 : {DetailContents.contact}</p>
                     <p>실험 장소 : {DetailContents.place}</p> 
-
+                    {
+                        DetailContents.images[0]
+                        ? <img src={DetailContents.images[0].url} width = '80px' height = '100px'/>
+                        : null
+                    }
+                    <hr/>
                     
                     <Button className= 'btn btn-danger' onClick={onUpdateHandler}>수정</Button>
                     <Button className= 'btn btn-danger ml-3' onClick={onDeleteHandler}>삭제</Button>
