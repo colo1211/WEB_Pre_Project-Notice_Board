@@ -40,10 +40,15 @@ const CreatePage = () => {
         phoneNum : null, 
         category : null,  
         dueDate : null, 
-        doDate : null
+        doDate : null,
+        file : null 
     }); 
 
+    // 미리보기를 위한 이미지 URL 담는 state
+    const [Attachment, setAttachment] = useState(null);
 
+    // Form Data에 담아줄 FileInfo
+    const [FileInfo, setFileInfo] = useState(null); 
 
     const onBodyChange = (e) => {
         setBody({
@@ -52,9 +57,28 @@ const CreatePage = () => {
         });
     }
 
+    const onFileChange = (e) => {
+        const reader = new FileReader(); 
+        console.log(e.target.files[0]); 
+
+        // FormData에 전달해줄 File의 Infomation
+        setFileInfo(e.target.files[0]); 
+
+        reader.readAsDataURL(e.target.files[0]);  // e.target.files는 파일을 여러개 선택을 대비하기 위한 API 사용 방법이므로 나는 하나만 할거니까 [0] 으로 선택 
+        reader.onloadend = (finished) => { // reader는 생명주기함수처럼 다룬다. 파일 로드가 끝나면 Attachment state에 img 의 주소를 담으라는 뜻
+            setAttachment(finished.target.result); // 이건 attachment에 URL을 담으라는 뜻, 만약 Img 미리보기를 취소하려면 attachment를 비워주면 된다. 
+        }
+    }
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        let formData = new FormData(); 
+
+        let formData = new FormData();
+
+        if (FileInfo){
+            formData.append('files', FileInfo)
+        }
+        
         formData.append('title', body.title);
         formData.append('content', body.content);
         formData.append('place', body.place);
@@ -111,6 +135,15 @@ const CreatePage = () => {
             <input name='dueDate' type ='date' className= 'input-layout' onChange={onBodyChange}></input>
             <p>실험/설문날짜(조회 기준)</p>
             <input name='doDate' className= 'input-layout' placeholder='2021-08-10T09:30' onChange={onBodyChange}></input>
+            <input name = 'file' type='file' onChange = {onFileChange}/>
+            {
+                Attachment && 
+                <div>
+                    <img src={Attachment} accept ='image/*' width='80px' height='100px'/>
+                    <button className='btn btn-primary' onClick={()=>{setAttachment(null)}}>Cancel</button>
+                </div>
+            }
+            <br/>
             <Button onClick={onSubmitHandler} className = 'mt-5' variant="danger">제출</Button>
         </div>
     </form>
