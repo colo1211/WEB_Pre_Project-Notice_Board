@@ -36,6 +36,26 @@ const ReadPage = () => {
     // Change Page -> Pagination Component에 Props로 넘겨준다. 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    // 이전 
+    const paginateDown = () => {
+        if(currentPage-2 >=0){
+            let temp = currentPage-1;
+            setCurrentPage(temp);  
+        }else{
+            alert('이전 페이지가 없습니다')
+        }
+    };
+
+    // 다음 
+    const paginateUp = () => {
+        if ( currentPage+1 <= Math.ceil(NoticeList.length/postPerPage)){
+            let temp = currentPage+1; 
+            setCurrentPage(temp);
+        }else{
+            alert('다음 페이지가 없습니다');
+        }
+    }; 
+
     const onDateChange = (e) => {
         setDate(e.target.value);
     }
@@ -92,15 +112,19 @@ const ReadPage = () => {
             {
                 NoticeList.length === 0
                 ? null
-                : (
+                : 
                     currentPosts.map((value,index)=>{
                         return <ReadPageItem key={index} value={value} index={index} DetailPage={DetailPage} /> 
                     })
-                )   
             }
 
+            {
+                currentPosts.length !== 0
+                ? <Pagenation postsPerPage={postPerPage} totalPosts={NoticeList.length} paginate={paginate} paginateDown={paginateDown} paginateUp={paginateUp} />   
+                : null
+            }
             </ul>
-            <Pagenation postsPerPage={postPerPage} totalPosts={NoticeList.length} paginate={paginate}/>
+            
 
         </div>
     )
