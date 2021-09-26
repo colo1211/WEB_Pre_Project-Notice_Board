@@ -1,7 +1,9 @@
 ## Notice_Board 프로젝트 
 
+### 진행기간
+: 2021-09-15 ~ 2021-09-26 (약 12일)
 ### 목적
-: API 문서를 통해 Axios 라이브러리를 활용하여 Back-End와의 request / response를 통해 Front-End 개발자로서의 전반적인 흐름을 이해하기 위해서 프로젝트를 진행.
+: 10월부터 첫 프로젝트를 진행하기 위해서 API 문서를 통해 Axios 라이브러리를 활용하여 Back-End와의 request / response를 통해 Front-End 개발자로서의 전반적인 흐름을 이해하기 위해서 Pre-Project를 진행.
 
 ### 얻은 점
 1. 해당 프로젝트를 통해 accessToken을 활용한 Auth(로그인 , 회원가입 , 로그아웃)을 이해 및 구현하였으며, 서버로 부터 받은 accessToken을 LocalStorage에 저장함으로써, 
