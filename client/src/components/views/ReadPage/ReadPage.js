@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import './ReadPage.scss'; 
 import axios from 'axios'; 
-import {Button} from 'react-bootstrap'; 
+import {Button, Pagination} from 'react-bootstrap'; 
 import { useHistory, useParams } from 'react-router';
+import ReadPageItem from './ReadPageItem';
+import Pagenation from './Pagenation'; 
 
 const ReadPage = () => {
-    
+
     const history = useHistory(); 
     const schoolList = require('./SchoolList').default; 
     const [Date, setDate] = useState('');
@@ -14,6 +16,25 @@ const ReadPage = () => {
 
     // 글 목록을 담는 배열
     const [NoticeList, setNoticeList] = useState([]);
+
+    // Pagination 을 위한 배열
+    const [posts, setPosts] = useState([]); 
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postPerPage, setPostPerPage] = useState(2);  
+
+      // Get current Posts
+    const indexOfLastPost = currentPage * postPerPage; // 1 * 10
+    const indexOfFirstPost =  indexOfLastPost - postPerPage; // 10 - 10
+
+    // 하나의 페이지에 띄울 용도
+    const currentPosts = NoticeList.slice(indexOfFirstPost, indexOfLastPost);
+
+    console.log('indexOfLastPost',indexOfLastPost,'indexofFirstPost',indexOfFirstPost,'currentPosts',currentPosts); 
+
+    
+    // Change Page -> Pagination Component에 Props로 넘겨준다. 
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
     const onDateChange = (e) => {
         setDate(e.target.value);
@@ -52,11 +73,10 @@ const ReadPage = () => {
         history.push(`/detail/${id}`); 
     }
 
+
     return (
         <div className='calender' style ={{marginTop:'1px', paddingTop : '40px', paddingBottom:'40px'}}>
-          
             <h3 style={{marginBottom:'30px'}}>조회할 게시물</h3>
-            
             <select className='select-input' onChange = {onSchoolChange}>
                 {
                     schoolList.map((value,index)=>{
@@ -64,26 +84,24 @@ const ReadPage = () => {
                     })
                 }
             </select>
-
             <input className='select-input' style={{height : '36px'}} type='date' onChange= {onDateChange}/> <br/>
             <div style ={{clear : 'both'}}></div>
             <Button onClick={onSubmitHandler} className='mt-4' variant="secondary">게시물 조회</Button>
-            
+            <ul className='list-group mt-5' style={{width : '70%', margin:'auto'}}>
+
             {
                 NoticeList.length === 0
                 ? null
-                : (NoticeList.map((value,index)=>{
-                    return (<div className ='notice-list' key={index}>
-                                <h4 onClick = {(e)=>{DetailPage(value.id,e)}}> {value.title} </h4>
-                                <label>작성자 : {value.author}</label>
-                                {
-                                    value.likes === 0
-                                    ? <p>🤍</p>
-                                    : <p>❤</p>
-                                }
-                            </div>)
-                }))   
+                : (
+                    currentPosts.map((value,index)=>{
+                        return <ReadPageItem key={index} value={value} index={index} DetailPage={DetailPage} /> 
+                    })
+                )   
             }
+
+            </ul>
+            <Pagenation postsPerPage={postPerPage} totalPosts={NoticeList.length} paginate={paginate}/>
+
         </div>
     )
 }
