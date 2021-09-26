@@ -4,16 +4,19 @@ import axios from 'axios';
 import {Button} from 'react-bootstrap';
 import UpdateForm from '../UpdateForm/UpdateForm';
 import './DetailPage.scss'; 
+import { useDispatch } from 'react-redux';
 
 const DetailPage = () => {
 
     const [isUpdate, setisUpdate] = useState(false);
-    const history = useHistory(); 
+    const history = useHistory();
+    const dispatch = useDispatch();  
     const { id } = useParams(); 
     const [DetailContents, setDetailContents] = useState(null); 
     const [Like, setLike] = useState();
     const [isFile, setIsFile] = useState(null);
-    
+
+
     useEffect(()=>{
         let token = JSON.parse(localStorage.getItem('user')).accessToken;
 
@@ -110,7 +113,7 @@ const DetailPage = () => {
                     {
                         Like === 1
                         ? <p>❤</p>
-                        : null
+                        : <p>🤍</p>
                     }
                 </div>
             }

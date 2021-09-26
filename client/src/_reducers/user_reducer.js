@@ -17,7 +17,7 @@ export default function(state = userInfo, action) {
             state.accessToken = action.payload.accessToken;
             state.accessTokenExpiredAt = action.payload.accessTokenExpiredAt;
             return {...state, user: state}
-            
+        
         case 'REGISTER_ACTION':
             return {...state, user: action.payload}
         

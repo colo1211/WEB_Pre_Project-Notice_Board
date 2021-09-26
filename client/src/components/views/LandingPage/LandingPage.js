@@ -4,7 +4,6 @@ import { withRouter } from 'react-router';
 import './LandingPage.scss';
 import CreatePage from '../CreatePage/CreatePage';
 import { loginAction } from '../../../_actions/user_action';
-import { Button } from 'react-bootstrap'; 
 import ReadPage from '../ReadPage/ReadPage';
 
 const LandingPage = () => {
@@ -30,16 +29,9 @@ const LandingPage = () => {
         }    
     },[]);
 
-    const WriteButton = () => {
-        setWrite(true); 
-    }
-
-
     return (
         <div>
-            <p>반갑습니다! {user.user.name}님! </p>
             <ReadPage/>
-            <Button className='primary' onClick = {WriteButton}> 글 생성 </Button> 
             {
                 Write === true
                 ? <CreatePage setWrite={setWrite}/>

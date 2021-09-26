@@ -7,6 +7,7 @@ import SignIn from './components/views/SignIn/SignIn';
 import SignUp from './components/views/SignUp/SignUp';
 import CreatePage from './components/views/CreatePage/CreatePage';
 import Auth from './hoc/Auth'; 
+import { Pagination } from 'react-bootstrap';
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
               <Route exact path='/create' component={ Auth(CreatePage, true) }/> 
               <Route exact path='/signup' component={ Auth(SignUp, false) }/>  
               <Route exact path='/signin' component={ Auth(SignIn, false) }/>  
-              <Route exact path='/detail/:id' component={ Auth(DetailPage, true) }/>  
+              <Route exact path='/detail/:id' component={ Auth(DetailPage, true) }/> 
             </Switch>  
         </Router>      
     </div>

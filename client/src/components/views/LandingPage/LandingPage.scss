@@ -1,14 +1,14 @@
 @import '../../../reset.scss';
 
 .form-layout{
-    display: block;
     margin: auto;
-    width : 70%;
+    width : 100%;
+    background-color: #eee;
+    padding-top : 30px;
 }
 
 .form-wrap {
-
-    width : 50%;
+    width : 40%;
     margin: auto;
 }
 

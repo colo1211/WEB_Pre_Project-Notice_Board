@@ -57,11 +57,11 @@ const SignUp = () => {
             width : '100%', height : '100vh'
         }}>
             <form style={{ display:'flex', flexDirection:'column'}} onSubmit={onSubmitHandler}>
-                <label>이름</label>
+                <label>Name</label>
                 <input className = 'input-style' name='name' type = 'text' placeholder = '손흥민' value={Name} onChange={onChangeHandler}/>
-                <label style={{marginTop : '5px'}}>이메일</label>
+                <label style={{marginTop : '5px'}}>Email</label>
                 <input className = 'input-style' name='email' type = 'email' placeholder='Email@exmaple.com' value={Email} onChange={onChangeHandler}/>
-                <label style={{marginTop : '5px'}}>패스워드</label>
+                <label style={{marginTop : '5px'}}>Password</label>
                 <input className = 'input-style' name='password' type = 'password' placeholder = 'Password' value={Password} onChange={onChangeHandler}/>
                 <button className='btn btn-primary input-style' style={{marginTop : '15px'}}>Sign Up</button>
                 <Link style={{marginTop : '15px'}} to='/signin'>Sign In</Link>
